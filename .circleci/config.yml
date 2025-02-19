@@ -57,6 +57,11 @@ jobs:
           cache-version: v1
           override-ci-command: npm ci
       - run:
+          name: Set up git credentials
+          command: | 
+            git config --global user.email $GIT_USER_EMAIL
+            git config --global user.name $GIT_USER_NAME
+      - run:
           name: Run release
           command: npm run release
   publish_to_npm:
@@ -71,6 +76,8 @@ jobs:
       - run:
           name: Publish to NPM
           command: npm run publish
+          environment:
+            NPM_TOKEN: $NPM_TOKEN
 
 workflows:
   build_app:

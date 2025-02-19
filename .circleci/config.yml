@@ -6,39 +6,44 @@ orbs:
 jobs:
   lint_code:
     executor: node/default
-    description: Lint code
     steps:
       - checkout
-      - node/install-packages 
-      - run:
-          name: Install dependencies
-          command: npm install
+      - node/install-packages:
+          pkg-manager: npm
+          override-ci-command: npm ci --legacy-peer-deps
       - run:
           name: Lint code
           command: npm run lint:fix
 
   run_tests:
     executor: node/default
-    description: Run tests
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          pkg-manager: npm
+          override-ci-command: npm ci --legacy-peer-deps
       - run:
           name: Run tests
           command: npm run test
 
   build:
     executor: node/default
-    description: Build
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          pkg-manager: npm
+          override-ci-command: npm ci --legacy-peer-deps
       - run:
           name: Build
           command: npm run build
+
 workflows:
   build_app:
     jobs:
       - lint_code
-      - run_tests
-      - build
+      - run_tests:
+          requires:
+            - lint_code
+      - build:
+          requires:
+            - run_tests

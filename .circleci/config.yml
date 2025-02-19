@@ -5,11 +5,13 @@ orbs:
 
 jobs:
   lint_code:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: '18'  # Specify the Node.js version here
     description: Lint code
     steps:
       - checkout
-      - node/install-packages  # ✅ FIXED: This should be a string, not a mapping
+      - node/install-packages
       - run:
           name: Install dependencies
           command: npm install
@@ -18,7 +20,9 @@ jobs:
           command: npm run lint:fix
 
   run_tests:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: '18'  # Specify the Node.js version here
     description: Run tests
     steps:
       - checkout
@@ -28,7 +32,9 @@ jobs:
           command: npm run test
 
   build:
-    executor: node/default
+    executor:
+      name: node/default
+      tag: '18'  # Specify the Node.js version here
     description: Build
     steps:
       - checkout
@@ -36,6 +42,7 @@ jobs:
       - run:
           name: Build
           command: npm run build
+
 workflows:
   build_app:
     jobs:

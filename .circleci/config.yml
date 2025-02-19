@@ -9,14 +9,13 @@ jobs:
     description: Lint code
     steps:
       - checkout
-      - node/install-packages:
+      - node/install-packages  # ✅ FIXED: This should be a string, not a mapping
       - run:
           name: Install dependencies
           command: npm install
       - run:
           name: Lint code
           command: npm run lint:fix
-   
 
   run_tests:
     executor: node/default
@@ -37,8 +36,6 @@ jobs:
       - run:
           name: Build
           command: npm run build
-
-
 workflows:
   build_app:
     jobs:

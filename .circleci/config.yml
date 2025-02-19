@@ -10,7 +10,9 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-          override-ci-command: npm ci --legacy-peer-deps
+          cache-path: ~/project/node_modules
+          cache-version: v1
+          override-ci-command: npm ci
       - run:
           name: Lint code
           command: npm run lint:fix
@@ -21,21 +23,30 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-          override-ci-command: npm ci --legacy-peer-deps
+          cache-path: ~/project/node_modules
+          cache-version: v1
+          override-ci-command: npm ci
       - run:
           name: Run tests
           command: npm run test
 
   build:
-    executor: node/default
+    docker:
+      - image: cimg/node:20.17.0
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-          override-ci-command: npm ci --legacy-peer-deps
+          cache-path: ~/project/node_modules
+          cache-version: v1
+          override-ci-command: npm ci
       - run:
           name: Build
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
 
 workflows:
   build_app:

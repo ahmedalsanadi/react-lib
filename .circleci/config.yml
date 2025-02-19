@@ -47,6 +47,30 @@ jobs:
           root: .
           paths:
             - dist
+  run_release:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+          cache-path: ~/project/node_modules
+          cache-version: v1
+          override-ci-command: npm ci
+      - run:
+          name: Run release
+          command: npm run release
+  publish_to_npm:
+    executor: node/default  
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+          cache-path: ~/project/node_modules
+          cache-version: v1
+          override-ci-command: npm ci
+      - run:
+          name: Publish to NPM
+          command: npm run publish
 
 workflows:
   build_app:
@@ -58,3 +82,9 @@ workflows:
       - build:
           requires:
             - run_tests
+      - run_release:
+          requires:
+            - build
+      - publish_to_npm:
+          requires:
+            - run_release

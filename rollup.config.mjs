@@ -4,7 +4,9 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts';
 import postcss from 'rollup-plugin-postcss';
-import packageJson from './package.json' assert { type: 'json' };
+import { readFileSync } from 'fs';
+
+const packageJson = JSON.parse(readFileSync('./package.json'));
 
 export default [
     {
@@ -29,7 +31,7 @@ export default [
                 tsconfig: './tsconfig.json',
                 exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.stories.ts'],
                 outDir: './dist',
-                declaration: false, // Change this to false
+                declaration: false, 
             }),
             postcss({
                 extensions: ['.css'],

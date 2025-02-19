@@ -47,7 +47,6 @@
       ]
     ]
   },
-
   "devDependencies": {
     "@babel/preset-env": "^7.26.8",
     "@babel/preset-react": "^7.26.3",
@@ -71,6 +70,7 @@
     "@testing-library/react": "^14.2.1",
     "@types/jest": "^29.5.14",
     "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
     "eslint": "^9.20.1",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.15.0",
@@ -89,7 +89,8 @@
     "typescript-eslint": "^8.24.0"
   },
   "peerDependencies": {
-    "react": ">=17"
+    "react": ">=17",
+    "react-dom": ">=17"
   },
   "resolutions": {
     "@storybook/react": "^8.5.6",

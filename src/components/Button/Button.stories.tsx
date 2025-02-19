@@ -7,6 +7,7 @@ export default {
         layout: "centered",
     },
     tags: ["autodocs"],
+    
     argTypes: {
         children: {
             description: "The button text",

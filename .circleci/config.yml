@@ -47,6 +47,7 @@ jobs:
           root: .
           paths:
             - dist
+
   run_release:
     executor: node/default
     steps:
@@ -59,30 +60,31 @@ jobs:
       - run:
           name: Set up git credentials
           command: | 
-            git config --global user.email $GIT_USER_EMAIL
-            git config --global user.name $GIT_USER_NAME
+            git config --global user.email "$GIT_USER_EMAIL"
+            git config --global user.name "$GIT_USER_NAME"
       - run:
           name: Run release
           command: npm run release
-  
-  publish_to_npm:
-  executor: node/default  
-  environment:
-    NPM_TOKEN: $NPM_TOKEN
-  steps:
-    - checkout
-    - node/install-packages:
-        pkg-manager: npm
-        cache-path: ~/project/node_modules
-        cache-version: v1
-        override-ci-command: npm ci
-    - run: 
-        name: login to npm 
-        command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
-    - run:
-        name: Publish to NPM
-        command: npm run publish
 
+  publish_to_npm:
+    executor: node/default  # Fixed indentation
+    environment:
+      NPM_TOKEN: $NPM_TOKEN
+    steps:
+      - checkout
+      - attach_workspace:  # Ensures dist folder is available
+          at: .
+      - node/install-packages:
+          pkg-manager: npm
+          cache-path: ~/project/node_modules
+          cache-version: v1
+          override-ci-command: npm ci
+      - run: 
+          name: Login to npm 
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+      - run:
+          name: Publish to NPM
+          command: npm publish  # Fixed incorrect `npm run publish` (should be `npm publish`)
 
 workflows:
   build_app:

@@ -2,7 +2,7 @@
 
 ## 🚀 Overview
 
-`ahmeds-react-component-lib` is a modern, lightweight React component library designed to provide reusable and customizable UI components for your web applications.
+`ahmeds-react-lib` is a modern, lightweight React component library designed to provide reusable and customizable UI components for your web applications.
 
 ## ✨ Features
 
@@ -31,7 +31,7 @@ Currently available components:
 ### Page Component
 
 ```jsx
-import { Page } from 'ahmeds-react-component-lib';
+import { Page } from 'ahmeds-react-lib';
 
 function MyComponent() {
   return (

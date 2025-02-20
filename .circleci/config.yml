@@ -64,23 +64,25 @@ jobs:
       - run:
           name: Run release
           command: npm run release
+  
   publish_to_npm:
-    executor: node/default  
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-          cache-path: ~/project/node_modules
-          cache-version: v1
-          override-ci-command: npm ci
-      - run: 
-          name: login to npm 
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
-      - run:
-          name: Publish to NPM
-          command: npm run publish
-          environment:
-            NPM_TOKEN: $NPM_TOKEN
+  executor: node/default  
+  environment:
+    NPM_TOKEN: $NPM_TOKEN
+  steps:
+    - checkout
+    - node/install-packages:
+        pkg-manager: npm
+        cache-path: ~/project/node_modules
+        cache-version: v1
+        override-ci-command: npm ci
+    - run: 
+        name: login to npm 
+        command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+    - run:
+        name: Publish to NPM
+        command: npm run publish
+
 
 workflows:
   build_app:
